@@ -1,0 +1,107 @@
+/* Scroll direction gives the page a quiet camera move; content stays readable. */
+@media (prefers-reduced-motion: no-preference) {
+  .scene > summary {
+    transition: transform .4s var(--ease);
+    transform-origin: center center;
+  }
+
+  .scene[data-state='opening'] .scene-content {
+    animation: scene-content-in .34s var(--ease) both;
+  }
+
+  .scene[data-state='closing'] .scene-content {
+    animation: scene-content-out .28s ease-in both;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .scene:hover:not([open]) > summary { transform: scale(1.012); }
+  }
+
+  .scene:focus-within:not([open]) > summary { transform: scale(1.012); }
+}
+
+@keyframes scene-content-in {
+  from { opacity: .35; transform: translateY(14px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes scene-content-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: .35; transform: translateY(-6px) scale(.99); }
+}
+
+/* View timelines follow the viewport without a JavaScript scroll loop. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scene {
+      animation: scene-arrival linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 75%;
+    }
+
+    .profile-main > div, .section-heading, .skills-intro, .education-grid > div {
+      animation: editorial-arrival linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+
+    .values > div {
+      animation: value-arrival linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 90%;
+    }
+  }
+}
+
+@keyframes scene-arrival {
+  from { opacity: .7; transform: translateY(22px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes editorial-arrival {
+  from { opacity: .72; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes value-arrival {
+  from { opacity: .65; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* The copper sculpture recedes while the first scene leaves the viewport. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sphere {
+      animation: sphere-depth linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0px 620px;
+    }
+
+    .orbit {
+      animation: orbit-depth linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0px 620px;
+    }
+
+    .art-halo {
+      animation: halo-depth linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0px 620px;
+    }
+  }
+}
+
+@keyframes sphere-depth {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-7%) scale(.82); }
+}
+
+@keyframes orbit-depth {
+  from { transform: rotate(-34deg) scale(1); }
+  to { transform: rotate(-18deg) scale(.86); }
+}
+
+@keyframes halo-depth {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: .45; transform: scale(1.22); }
+}

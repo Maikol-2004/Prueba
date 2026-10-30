@@ -364,6 +364,30 @@ h1 em { display: inline-block; letter-spacing: -.065em; line-height: 1; margin-l
   .filters button { font-size: 9px; padding-inline: 5px; }
   .values > div { gap: 12px; }
 }
+/* Scroll-linked accents enhance the existing one-time content reveals. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-label {
+      animation: scroll-label linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    .heading-flourish, .skills-mark {
+      animation: scroll-accent linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+      transform-origin: left center;
+    }
+  }
+}
+@keyframes scroll-label {
+  from { opacity: .7; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scroll-accent {
+  from { opacity: .4; transform: scale(.88); }
+  to { opacity: 1; transform: scale(1); }
+}
 /* Movement is progressive enhancement; content is never hidden by default. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

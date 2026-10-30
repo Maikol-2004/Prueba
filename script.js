@@ -196,7 +196,11 @@
         revealObserver.unobserve(entry.target);
       });
     }, { threshold: .12 });
-    document.querySelectorAll('[data-reveal]').forEach(element => revealObserver.observe(element));
+    const scrollLinkedReveals = CSS.supports('animation-timeline: view()');
+    document.querySelectorAll('[data-reveal]').forEach(element => {
+      if (scrollLinkedReveals && element.matches('.profile-main > div, .section-heading, .education-grid > div')) return;
+      revealObserver.observe(element);
+    });
   }
 
   const header = document.querySelector('.header');
