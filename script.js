@@ -196,7 +196,7 @@
         revealObserver.unobserve(entry.target);
       });
     }, { threshold: .12 });
-    const scrollLinkedReveals = CSS.supports('animation-timeline: view()');
+    const scrollLinkedReveals = CSS.supports('animation-timeline: view()') && window.innerWidth > 760;
     document.querySelectorAll('[data-reveal]').forEach(element => {
       if (scrollLinkedReveals && element.matches('.profile-main > div, .section-heading, .education-grid > div')) return;
       revealObserver.observe(element);
@@ -207,6 +207,7 @@
   const progress = document.querySelector('.reading-progress');
   const navLinks = [...document.querySelectorAll('nav a')];
   const navSections = navLinks.map(link => document.querySelector(link.hash));
+  const mobileHero = document.querySelector('.hero');
   let scrollFrame = 0;
 
   function updateNavigation() {
@@ -222,6 +223,18 @@
     const scrolled = String(scrollY > 16);
     if (header.dataset.scrolled !== scrolled) header.dataset.scrolled = scrolled;
     progress.style.transform = `scaleX(${maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0})`;
+    if (window.innerWidth <= 760 && !motionPreference.matches) {
+      const heroProgress = Math.min(1, scrollY / Math.max(460, mobileHero.offsetHeight * .55));
+      mobileHero.style.setProperty('--hero-progress', heroProgress.toFixed(3));
+      const focusLine = window.innerHeight * .54;
+      scenes.forEach(scene => {
+        if (scene.hidden) return;
+        const bounds = scene.getBoundingClientRect();
+        const center = bounds.top + Math.min(bounds.height, window.innerHeight * .7) / 2;
+        const focus = Math.max(0, 1 - Math.abs(center - focusLine) / (window.innerHeight * .72));
+        scene.style.setProperty('--mobile-focus', focus.toFixed(3));
+      });
+    }
     navLinks.forEach((link, index) => {
       if (index === currentIndex && !link.hasAttribute('aria-current')) link.setAttribute('aria-current', 'location');
       else if (index !== currentIndex && link.hasAttribute('aria-current')) link.removeAttribute('aria-current');
@@ -239,7 +252,25 @@
 
   // Small pointer-driven depth, only on devices that support precise hovering.
   const sculpture = document.querySelector('.sculpture');
+  const hero = document.querySelector('.hero');
+  const heroGlow = document.querySelector('.hero-glow');
   let pointerFrame = 0;
+  let glowFrame = 0;
+  hero.addEventListener('pointermove', event => {
+    if (motionPreference.matches || !finePointer.matches || glowFrame) return;
+    glowFrame = requestAnimationFrame(() => {
+      glowFrame = 0;
+      const rect = hero.getBoundingClientRect();
+      heroGlow.style.setProperty('--glow-x', `${((event.clientX - rect.left) / rect.width - .5) * 90}px`);
+      heroGlow.style.setProperty('--glow-y', `${((event.clientY - rect.top) / rect.height - .5) * 70}px`);
+    });
+  }, { passive: true });
+  hero.addEventListener('pointerleave', () => {
+    cancelAnimationFrame(glowFrame);
+    glowFrame = 0;
+    heroGlow.style.removeProperty('--glow-x');
+    heroGlow.style.removeProperty('--glow-y');
+  });
   function resetSculpture() {
     window.cancelAnimationFrame(pointerFrame);
     pointerFrame = 0;
@@ -266,6 +297,7 @@
       scenes.forEach(settleScene);
       runningAnimations.forEach(animation => animation.cancel());
     }
+    scheduleNavigation();
   });
   finePointer.addEventListener('change', () => { resetSculpture(); resetProximity(); });
 })();
