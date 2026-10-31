@@ -38,6 +38,12 @@
         state.summary.scrollIntoView({ block: 'nearest', behavior: motionPreference.matches ? 'instant' : 'smooth' });
       }
     }
+    if (state.scrollOnOpen) {
+      state.scrollOnOpen = false;
+      if (window.innerWidth <= 760 && scene.getBoundingClientRect().bottom > window.innerHeight - 24) {
+        state.summary.scrollIntoView({ block: 'start', behavior: motionPreference.matches ? 'instant' : 'smooth' });
+      }
+    }
   }
 
   function activateScene(scene, wantOpen, returnFocus = false) {
@@ -48,6 +54,7 @@
     state.animation = null;
     state.wantOpen = wantOpen;
     state.returnFocus = returnFocus;
+    state.scrollOnOpen = wantOpen;
     if (!wantOpen && (returnFocus || state.panel.contains(document.activeElement))) {
       state.summary.focus({ preventScroll: true });
     }
@@ -79,7 +86,7 @@
     const panel = scene.querySelector(':scope > .scene-panel');
     panel.id = `scene-panel-${index + 1}`;
     summary.setAttribute('aria-controls', panel.id);
-    sceneStates.set(scene, { summary, panel, content: panel.querySelector('.scene-content'), wantOpen: scene.open, animation: null, returnFocus: false });
+    sceneStates.set(scene, { summary, panel, content: panel.querySelector('.scene-content'), wantOpen: scene.open, animation: null, returnFocus: false, scrollOnOpen: false });
     scene.dataset.enhanced = '';
     settleScene(scene);
     summary.addEventListener('click', event => {
@@ -208,6 +215,7 @@
   const navLinks = [...document.querySelectorAll('nav a')];
   const navSections = navLinks.map(link => document.querySelector(link.hash));
   const mobileHero = document.querySelector('.hero');
+  const jobsContainer = document.querySelector('.jobs');
   let scrollFrame = 0;
 
   function updateNavigation() {
@@ -223,6 +231,20 @@
     const scrolled = String(scrollY > 16);
     if (header.dataset.scrolled !== scrolled) header.dataset.scrolled = scrolled;
     progress.style.transform = `scaleX(${maxScroll > 0 ? Math.min(1, Math.max(0, scrollY / maxScroll)) : 0})`;
+    const timelineBounds = jobsContainer.getBoundingClientRect();
+    const timelinePoint = window.innerHeight * .54;
+    const timelineLength = Math.max(1, timelineBounds.height - 124);
+    const timelineProgress = Math.max(0, Math.min(1, (timelinePoint - timelineBounds.top - 62) / timelineLength));
+    jobsContainer.style.setProperty('--timeline-progress', timelineProgress.toFixed(3));
+    let currentJob = null;
+    let currentDistance = Infinity;
+    jobs.forEach(job => {
+      if (job.hidden) return;
+      const bounds = job.getBoundingClientRect();
+      const distance = Math.abs(bounds.top + bounds.height / 2 - timelinePoint);
+      if (distance < currentDistance) { currentDistance = distance; currentJob = job; }
+    });
+    jobs.forEach(job => { if (job === currentJob && timelineBounds.top < window.innerHeight && timelineBounds.bottom > 0) job.dataset.current = ''; else delete job.dataset.current; });
     if (window.innerWidth <= 760 && !motionPreference.matches) {
       const heroProgress = Math.min(1, scrollY / Math.max(460, mobileHero.offsetHeight * .55));
       mobileHero.style.setProperty('--hero-progress', heroProgress.toFixed(3));
@@ -231,7 +253,8 @@
         if (scene.hidden) return;
         const bounds = scene.getBoundingClientRect();
         const center = bounds.top + Math.min(bounds.height, window.innerHeight * .7) / 2;
-        const focus = Math.max(0, 1 - Math.abs(center - focusLine) / (window.innerHeight * .72));
+        let focus = Math.max(0, 1 - Math.abs(center - focusLine) / (window.innerHeight * .72));
+        if (scene.classList.contains('job') && scene !== currentJob) focus *= .18;
         scene.style.setProperty('--mobile-focus', focus.toFixed(3));
       });
     }

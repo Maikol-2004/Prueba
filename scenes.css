@@ -77,7 +77,13 @@
 .scene-help { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--muted); margin-bottom: 24px; }
 .scene-help-dot { width: 5px; height: 5px; border: 1px solid var(--copper); transform: rotate(45deg); flex-shrink: 0; }
 /* Experience stages retain their scan-friendly title, employer and dates. */
-.jobs { display: grid; gap: 12px; }
+.jobs { --timeline-progress: 0; display: grid; gap: 12px; position: relative; padding-left: 32px; }
+.jobs::before, .jobs::after { content: ''; position: absolute; left: 8px; top: 62px; width: 1px; pointer-events: none; }
+.jobs::before { bottom: 62px; background: var(--line-strong); }
+.jobs::after { height: calc((100% - 124px) * var(--timeline-progress)); background: var(--copper); box-shadow: 0 0 12px #d2a27e90; }
+.job > summary::before { content: ''; position: absolute; top: 50%; left: -29px; width: 9px; height: 9px; border: 1px solid var(--copper); border-radius: 50%; background: var(--bg); transform: translateY(-50%); transition: background .25s, box-shadow .25s, transform .25s; }
+.job[data-current] > summary::before, .job[open] > summary::before { background: var(--copper); box-shadow: 0 0 0 5px #d2a27e24, 0 0 14px #d2a27e8a; transform: translateY(-50%) scale(1.2); }
+.job[data-current] .job-year { color: var(--copper); }
 .job > summary { display: grid; grid-template-columns: 34px 1fr 110px 95px; align-items: center; gap: 24px; padding: 26px 24px; }
 .job-num { color: var(--copper); align-self: start; padding-top: 8px; }
 .job-name { font-size: clamp(22px, 2.35vw, 34px); letter-spacing: -.035em; line-height: 1.25; transition: color .25s; }
@@ -152,12 +158,15 @@
   .study-marker { left: -33px; }
 }
 @media (max-width: 520px) {
+  .jobs { padding-left: 20px; }
+  .jobs::before, .jobs::after { left: 4px; }
+  .job > summary::before { left: -20px; width: 8px; height: 8px; }
   .scene-content { padding: 20px 22px; }
-  .scene-panel-heading { font-size: 7px; gap: 12px; }
+  .scene-panel-heading { font-size: 10px; gap: 12px; }
   .scene-panel-heading span:last-child { display: none; }
   .scene-help { font-size: 11px; align-items: baseline; line-height: 1.7; }
   .job > summary { grid-template-columns: 16px 1fr 62px; padding: 22px 16px; gap: 10px; }
-  .job-num { font-size: 8px; padding-top: 5px; }
+  .job-num { font-size: 10px; padding-top: 5px; }
   .job-name { font-size: 21px; }
   .job-name small { font-size: 11px; margin-top: 8px; }
   .job-year { font-size: 10px; }
@@ -191,6 +200,7 @@
   .scene-glyph::before, .scene-glyph::after { left: 8px; top: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .jobs::after { display: none; }
   .scene, .scene::before, .scene::after, .scene *, .scene *::before, .scene *::after { animation: none !important; transition: none !important; }
   .scene::before { background-position: center; }
   .scene::after { transform: none; }

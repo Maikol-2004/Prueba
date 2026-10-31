@@ -281,14 +281,14 @@ h1 em { display: inline-block; letter-spacing: -.065em; line-height: 1; margin-l
   nav .icon { display: none; }
   .download { min-height: 44px; padding: 8px 10px; font-size: 10px; }
   .download .icon { width: 12px; height: 12px; margin-left: 6px; }
-  .hero-top { padding-top: 24px; font-size: 7px; letter-spacing: .09em; }
+  .hero-top { padding-top: 24px; font-size: 9px; letter-spacing: .06em; }
   .hero-top .dot-label { gap: 8px; }
   .edition { display: none; }
   .hero-title { grid-template-columns: 1fr; padding-top: 22px; padding-bottom: 16px; }
   .hero-name { padding: 0; }
-  .hero-kicker { font-size: 8px; margin-bottom: 20px; }
+  .hero-kicker { font-size: 10px; margin-bottom: 20px; }
   h1 { font-size: clamp(84px, 26.5vw, 137px); }
-  .full-name { margin-top: 17px; font-size: 8px; }
+  .full-name { margin-top: 17px; font-size: 10px; }
   .sculpture { height: 280px; width: min(100%, 335px); margin: 18px auto 0; }
   .sculpture-art { inset: 0 0 7%; }
   .art-coordinate, .art-caption-note { font-size: 7px; }
@@ -303,9 +303,9 @@ h1 em { display: inline-block; letter-spacing: -.065em; line-height: 1; margin-l
   .hero-intro { font-size: 13px; max-width: 300px; }
   .hero-intro .text-link { margin-top: 10px; }
   .hero-bottom .circle-link { display: grid; width: 44px; height: 44px; align-self: end; margin-bottom: 4px; }
-  .hero-foot { font-size: 6px; letter-spacing: .08em; gap: 16px; padding-block: 19px; }
+  .hero-foot { font-size: 9px; letter-spacing: .04em; gap: 16px; padding-block: 19px; }
   h2 { font-size: clamp(39px, 10.7vw, 55px); }
-  .section-label { font-size: 8px; gap: 18px; line-height: 1.6; margin-bottom: 34px; }
+  .section-label { font-size: 10px; gap: 18px; line-height: 1.6; margin-bottom: 34px; }
   .section-label > span:last-child { max-width: 145px; }
   .section-label > span:first-child { gap: 11px; }
   .profile-main h2 br:nth-child(2) { display: initial; }

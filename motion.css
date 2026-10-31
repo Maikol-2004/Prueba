@@ -141,6 +141,8 @@
 /* Mobile has a visible, touch-friendly scroll sequence independent of CSS timelines. */
 @media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
   .hero-name, .sphere, .orbit, .art-halo, .scene { animation: none !important; }
+  .profile-main > div, .section-heading, .skills-intro, .education-grid > div,
+  .values > div, .section-label, .heading-flourish, .skills-mark { animation: none !important; }
 
   .hero-name {
     transform: translate3d(0, calc(var(--hero-progress, 0) * -42px), 0)
@@ -164,7 +166,7 @@
   }
 
   .scene {
-    --scene-light: calc(.18 + var(--mobile-focus, 0) * .82);
+    --scene-light: calc(.1 + var(--mobile-focus, 0) * .9);
     transform: translate3d(0, calc((1 - var(--mobile-focus, 0)) * 28px), 0)
       scale(calc(.93 + var(--mobile-focus, 0) * .07));
     border-color: rgba(210, 162, 126, calc(.22 + var(--mobile-focus, 0) * .62));
