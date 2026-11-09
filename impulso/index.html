@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Impulso</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="description" content="Impulso: organiza tu día, enfócate sin distracciones y mantén la racha. Para estudiantes y profesionales.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -74,8 +75,7 @@ ul{margin:0;padding:0;list-style:none}
 .app{max-width:1340px;margin:0 auto;display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;align-items:start}
 .side{position:sticky;top:0;height:100vh;overflow-y:auto;padding-block:22px;display:flex;flex-direction:column;gap:20px;scrollbar-width:thin}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:-.02em}
-.brand-mark{width:34px;height:34px;border-radius:11px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
-.brand-mark .ic{width:20px;height:20px;stroke-width:2.6}
+.brand-logo{width:36px;height:36px;flex:none}
 .nav{display:flex;flex-direction:column;gap:4px}
 .nav a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;color:var(--ink-2);text-decoration:none;font-weight:600}
 .nav a:hover{background:var(--surface);color:var(--ink)}
@@ -347,7 +347,7 @@ ul{margin:0;padding:0;list-style:none}
   .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:14px 4px;position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
   body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:31;background:var(--bg)}
   .topbar .brand{font-size:22px}
-  .topbar .brand-mark{width:30px;height:30px;border-radius:10px}
+  .topbar .brand-logo{width:32px;height:32px}
   .topbar .seg button{padding:6px 10px;font-size:13px}
   .tabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--surface);border-top:1px solid var(--line);
     padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
@@ -853,7 +853,7 @@ function modeSeg(){ return '<div class="seg" role="group" aria-label="Perfil de 
 function themeBtn(cls){ const dark = isDark(); return '<button class="' + cls + '" data-act="theme" aria-label="Cambiar a modo ' + (dark ? 'claro' : 'oscuro') + '">' + ic(dark ? 'sun' : 'moon') + (cls === 'link-btn' ? (dark ? 'Modo claro' : 'Modo oscuro') : '') + '</button>'; }
 function isDark(){ const t = document.documentElement.dataset.theme; return t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches); }
 function renderChrome(){
-  const P = S(), lv = level(P.xp), inLv = P.xp % 100, logo = '<span class="brand-mark">' + ic('bolt') + '</span>Impulso';
+  const P = S(), lv = level(P.xp), inLv = P.xp % 100, logo = '<svg class="brand-logo" viewBox="0 0 128 128" aria-hidden="true"><rect width="128" height="128" rx="30" fill="#0E4443"/><path d="M98 64A34 34 0 1 1 64 30" fill="none" stroke="#5EE0C2" stroke-width="9" stroke-linecap="round"/><path d="M50 78 92 36M72 36h20v20" fill="none" stroke="#F6C453" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>Impulso';
   $('#side').innerHTML = '<div class="brand">' + logo + '</div>' +
     '<nav class="nav" aria-label="Secciones">' + NAV.map(([id, n, i]) => '<a href="#' + id + '" ' + (UI.view === id ? 'aria-current="page"' : '') + '>' + ic(i) + n + (id === 'enfoque' && (T.running || T.started) ? '<span class="dot num" id="side-t">' + mmss(T.remain) + '</span>' : '') + '</a>').join('') + '</nav>' +
     '<div class="side-block"><span class="eyebrow">Perfil de demostración</span>' + modeSeg().replace('class="seg"', 'class="seg full"') + '</div>' +

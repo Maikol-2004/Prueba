@@ -9,3 +9,7 @@ App demo de productividad para estudiantes y profesionales: organiza el día, en
 - **Progreso**: gráfico semanal, mapa de constancia, reparto del tiempo, fugas de atención y logros.
 
 Perfiles Estudiante y Profesional con datos de ejemplo, modo claro y oscuro. Sin dependencias: abre `index.html` o ejecuta `python3 -m http.server` en esta carpeta. Los datos se guardan en el navegador (`localStorage`).
+
+## Logo
+
+`assets/`: `logo-mark.svg` (icono de app), `logo-wordmark.svg` y `logo-wordmark-dark.svg` (logo horizontal sobre fondo claro y oscuro, texto convertido a trazos), `favicon.svg` y PNG (`logo-mark-512.png`, `icon-192.png`, `logo-wordmark.png`, `logo-wordmark-dark.png`). El símbolo es un anillo de enfoque abierto con una flecha que sale hacia arriba. Colores: verde azulado #0E4443, menta #5EE0C2 y ámbar #F6C453.
