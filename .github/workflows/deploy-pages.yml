@@ -28,6 +28,7 @@ jobs:
           mkdir dist
           cp index.html style.css scenes.css motion.css script.js dist/
           cp -R assets dist/assets
+          cp -R impulso dist/impulso
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist

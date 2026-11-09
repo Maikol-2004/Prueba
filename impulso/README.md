@@ -1,0 +1,11 @@
+# Impulso
+
+App demo de productividad para estudiantes y profesionales: organiza el día, enfócate sin distracciones y mantén la racha.
+
+- **Hoy**: resumen, siguiente mejor acción, tareas con captura rápida (`#estudio !alta 45m`), intención del día, hábitos y frase de motivación.
+- **Enfoque**: temporizador Pomodoro (25/5, 50/10, 15/3), ritual de arranque y registro de distracciones.
+- **Hábitos**: marcas de los últimos 7 días con rachas.
+- **Metas**: metas con pasos y fecha límite.
+- **Progreso**: gráfico semanal, mapa de constancia, reparto del tiempo, fugas de atención y logros.
+
+Perfiles Estudiante y Profesional con datos de ejemplo, modo claro y oscuro. Sin dependencias: abre `index.html` o ejecuta `python3 -m http.server` en esta carpeta. Los datos se guardan en el navegador (`localStorage`).
